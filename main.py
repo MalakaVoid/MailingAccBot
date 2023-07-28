@@ -17,6 +17,7 @@ app = Client("account", os.getenv("API_ID"), os.getenv("API_HASH"))
 cur_state = States()
 get_groups()
 
+
 with app:
     for dialog in app.get_dialogs():
         if str(dialog.chat.username) in groups_to_add:
