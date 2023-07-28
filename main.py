@@ -10,55 +10,12 @@ from txt_controller import get_groups
 from pyrogram import filters
 from StateClass import States
 import os
-import aiomysql
-import datetime
-from settings import MysqlDSN
-
-
-#Time for the next request to DB
-next_request_time = datetime.datetime.now()
-#Delta of time to send new request to DB
-N = datetime.timedelta(seconds=int(os.getenv("NR_TIME")))
-#Database table data cache
-data_cache = {}
-
 
 #program
 current_admin_user = None
 app = Client("account", api_id, api_hash)
 cur_state = States()
 get_groups()
-
-
-def cache(func):
-    async def wrapper_cache(*args, **kwargs):
-        global data_cache
-        global next_request_time
-        global N
-        if not next_request_time or next_request_time < datetime.datetime.now() or not data_cache:
-            next_request_time += N
-            data_cache = await func(*args, **kwargs)
-            return data_cache
-        else:
-            return data_cache
-    return wrapper_cache
-
-
-@cache
-async def data_catcher():
-    conn = await aiomysql.connect(host=MysqlDSN.host, port=MysqlDSN.port, user=MysqlDSN.user, password=MysqlDSN.password, db=MysqlDSN.db)
-    cursor = await conn.cursor()
-    try:
-        await cursor.execute("SELECT host_name, probability FROM Hosts")
-        data_tuple = await cursor.fetchall()
-        output_dict = {}
-        for data in data_tuple:
-            output_dict[data[0]] = data[1]
-        return output_dict
-    finally:
-        await cursor.close()
-        conn.close()
-
 
 with app:
     for dialog in app.get_dialogs():
