@@ -13,7 +13,7 @@ import os
 
 #program
 current_admin_user = None
-app = Client("account", api_id, api_hash)
+app = Client("account", os.getenv("API_ID"), os.getenv("API_HASH"))
 cur_state = States()
 get_groups()
 
