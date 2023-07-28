@@ -76,6 +76,8 @@ async def admins_chat(client, message: types.Message):
                 current_admin_user = None
                 cur_state.end_states()
         elif cur_state.get_state() == "get_message_to_mail_state":
+            await app.send_message(chat_id=message.chat.id,
+                                   text="Идет отправка сообщений, пожалуйста подождите!")
             await send_message(message.text, message.chat)
             await app.send_message(chat_id=message.chat.id,
                                    text="Сообщения успешно отправлены!")
