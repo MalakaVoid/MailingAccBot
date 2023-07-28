@@ -20,7 +20,7 @@ next_request_time = datetime.datetime.now()
 #Delta of time to send new request to DB
 N = datetime.timedelta(seconds=int(os.getenv("NR_TIME")))
 #Database table data cache
-data_cache = {}
+data_cache = []
 
 
 #program
@@ -49,12 +49,12 @@ async def data_catcher():
     conn = await aiomysql.connect(host=MysqlDSN.host, port=MysqlDSN.port, user=MysqlDSN.user, password=MysqlDSN.password, db=MysqlDSN.db)
     cursor = await conn.cursor()
     try:
-        await cursor.execute("SELECT host_name, probability FROM Hosts")
-        data_tuple = await cursor.fetchall()
-        output_dict = {}
-        for data in data_tuple:
-            output_dict[data[0]] = data[1]
-        return output_dict
+        await cursor.execute("SELECT url FROM Tg_info")
+        data_arr = await cursor.fetchall()
+        output_arr = []
+        for data in data_arr:
+            output_arr.append(data)
+        return output_arr
     finally:
         await cursor.close()
         conn.close()
@@ -73,6 +73,7 @@ with app:
             chat_exmps.append(chat)
         except Exception as e:
             print(str(e) + "\n")
+
 
 #handler
 @app.on_message(filters.user(admins) & filters.private)
