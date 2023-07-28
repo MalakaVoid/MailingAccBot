@@ -12,5 +12,5 @@ def get_groups():
 
 def add_group(group: str):
     f = open('groups.txt', 'a')
-    f.write(f"{group}\n")
+    f.write(f"\n{group}")
     f.close()

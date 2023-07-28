@@ -5,8 +5,8 @@ import time
 from pyrogram import Client
 from pyrogram import types
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from globals import api_id, api_hash, admins,chat_exmps, groups_to_add
-from txt_controller import get_groups
+from globals import admins, chat_exmps, groups_to_add
+from txt_controller import get_groups, add_group
 from pyrogram import filters
 from StateClass import States
 import os
@@ -102,6 +102,7 @@ async def join_chat_group(group_txt, admin_chat):         #Добавление 
     try:
         chat = await app.join_chat(group_name)
         chat_exmps.append(chat)
+        add_group(group_txt)
     except Exception as e:
         ex_txt = str(e)
         await app.send_message(chat_id=admin_chat.id,
