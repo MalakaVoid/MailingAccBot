@@ -8,3 +8,15 @@ pyasn1==0.5.0
 rsa==4.9
 setuptools==57.0.0
 wheel==0.36.2
+aiomysql==0.2.0
+sanic==23.3.0
+validators==0.20.0
+urllib3==2.0.3
+aiomysql==0.2.0
+cryptography==41.0.2
+pytest==7.4.0
+pytest-asyncio==0.21.1
+sanic-routing==22.8.0
+sanic-testing==23.3.0
+requests==2.31.0
+asyncmy==0.2.8
