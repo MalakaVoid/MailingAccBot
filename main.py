@@ -5,7 +5,7 @@ import time
 from pyrogram import Client
 from pyrogram import types
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from globals import admins, chat_exmps, groups_to_add
+from globals import admins, chat_exmps, groups_to_add, API_HASH, API_ID
 from txt_controller import get_groups, add_group
 from pyrogram import filters
 from StateClass import States
@@ -13,7 +13,7 @@ import os
 
 #program
 current_admin_user = None
-app = Client("account", os.getenv("API_ID"), os.getenv("API_HASH"))
+app = Client("account", API_ID, API_HASH)
 cur_state = States()
 get_groups()
 
