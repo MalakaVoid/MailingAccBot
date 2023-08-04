@@ -78,6 +78,8 @@ async def admins_chat(client, message: types.Message):
                                        text="Введите сообщение для рассылки:")
             elif txt_input == "2":
                 msg_txt = "Группы:\n"
+                for each in chat_exmps:
+                    print(chat_exmps)
                 for e_chat in chat_exmps:
                     msg_txt += f"название: {e_chat.title}\n"
                 await app.send_message(chat_id=message.chat.id,
@@ -98,7 +100,7 @@ async def admins_chat(client, message: types.Message):
         elif cur_state.get_state() == "get_message_to_mail_state":
             await app.send_message(chat_id=message.chat.id,
                                    text="Идет отправка сообщений, пожалуйста подождите!")
-            await send_message(message.text, message.chat)
+            await send_message(message.text, message.chat, message.entities)
             await app.send_message(chat_id=message.chat.id,
                                    text="Сообщения успешно отправлены!")
             await app.send_message(message.chat.id,
@@ -135,11 +137,13 @@ async def join_chat_group(group_txt, admin_chat):         #Добавление 
         await app.send_message(chat_id=admin_chat.id,
                                text=ex_txt)
 
-async def send_message(message_txt, admin_chat):  #Отправка рассылки
+async def send_message(message_txt, admin_chat, mes_enti):  #Отправка рассылки
     for e_chat in chat_exmps:
         try:
+            print(e_chat.title)
             await app.send_message(e_chat.id,
-                                   text=message_txt)
+                                   text=message_txt,
+                                   entities=mes_enti)
         except Exception as e:
             await app.send_message(chat_id=admin_chat.id,
                                    text=f"Произошла проблема с группой {e_chat.username}. Ошибка: {e}\n")
